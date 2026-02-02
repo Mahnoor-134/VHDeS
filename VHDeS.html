@@ -1,0 +1,63 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="VHDeS.css" />
+    <title>VHDeS</title>
+</head>
+
+<body>
+
+    <h2> Vi Hyr Dig elScooter!</h2>
+    <h3>Hyra din ElScooter med en klick!</h3>
+
+    <p>log in: </p>
+    <form id="Form">
+        <label for="name">Namn: </label>
+        <input type="text" name="name" id="name">
+        <br>
+
+        <label for="personnummer"> Ange ditt personnummer(ÅÅMMDD-XXXX): </label>
+        <input type="number" name="personnummer" id="personnummer">
+        <br>
+        <input type="submit" value="logga in">
+
+    </form>
+
+    <script>
+        let name = null;
+        const form = document.getElementById('Form');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+
+            const text = document.getElementById('name').value;
+            const personnummer = document.getElementById('personnummer').value;
+
+
+            console.log(text + personnummer);
+
+
+            if (text == "jasmin" && personnummer == "00") {
+                name = text;
+
+                window.location.href = `vhdes2.html?username=${encodeURIComponent(name)}`;
+            }
+            else {
+                alert("Fel användarnamn eller lösenord!");
+            }
+        });
+    </script>
+
+
+
+
+
+</body>
+
+
+
+</html>

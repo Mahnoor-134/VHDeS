@@ -1,0 +1,28 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="VHDeS.css" />
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1> Vi Hyr Dig elScooter!</h1>
+
+    <h2 id="welcome"></h2>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const text = document.getElementById("welcome");
+        let username = params.get('username');
+        if (username) {
+            text.textContent = `Välkommen ${username}!`;
+        }
+
+    </script>
+
+</body>
+
+</html>
