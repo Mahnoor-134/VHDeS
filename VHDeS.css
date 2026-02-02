@@ -1,4 +1,29 @@
+* {
+  margin: 0;
+  padding: 5px;
+}
+
 body{
-    background-color: rgb(247, 242, 235);
-    margin: 32;
+    background-color: #f2fdfa;
+    font-family: 'Times New Roman', Times, serif;
+    margin: 36px;
+}
+
+h1{
+    display: flex;
+    margin: 30px;
+    justify-content:center;
+}
+h2{
+    display: flex;
+    justify-content: baseline;
+}
+
+#submit{
+    color: rgb(255, 255, 255);
+    background-color: #aee5ff;
+    display: flex;
+    padding: 8px;
+    justify-content: center;
+    
 }
