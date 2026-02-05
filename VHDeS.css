@@ -1,29 +1,46 @@
 * {
-  margin: 0;
-  padding: 5px;
+    margin: 0;
+    padding: 5px;
 }
 
-body{
-    background-color: #f2fdfa;
+body {
+    background-color: #e6fff8;
     font-family: 'Times New Roman', Times, serif;
     margin: 36px;
 }
 
-h1{
+h1 {
     display: flex;
     margin: 30px;
-    justify-content:center;
-}
-h2{
-    display: flex;
-    justify-content: baseline;
+    justify-content: center;
+    color: #11465f ;
 }
 
-#submit{
+h2 {
+    display: flex;
+    justify-content: baseline;
+    margin: 30px;
+    color: #11465f ;
+}
+
+
+#submit {
     color: rgb(255, 255, 255);
-    background-color: #aee5ff;
+    background-color: #11465f;
     display: flex;
     padding: 8px;
     justify-content: center;
-    
+
+}
+#hyra{
+    color: rgb(255, 255, 255);
+    background-color: #11465f;
+    display: flex;
+    padding: 22px;
+    justify-content:center;
+    align-items: center;
+    margin: 120px;
+    font-size: large;
+
+
 }

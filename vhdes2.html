@@ -11,7 +11,10 @@
 
     <h1> Vi Hyr Dig elScooter!</h1>
 
-    <h2 id="welcome"></h2>
+    <h2 id="welcome">Välkommen!</h2>
+
+    <button id="hyra"> Hyra</button>
+    <p id="kvitto"> </p>
 
     <script>
         const params = new URLSearchParams(window.location.search);
@@ -21,8 +24,33 @@
             text.textContent = `Välkommen ${username}!`;
         }
 
+
+        const hyra = document.getElementById('hyra');
+        const kvittoText = document.getElementById('kvitto');
+
+        hyra.addEventListener('click', function () {
+
+            const product = { name: 'elscoter', pris: '150 kr' };
+            const tid = new Date().toLocaleTimeString();
+            const date = new Date().toLocaleDateString();
+
+        kvittoText.textContent=`Bokat! Du hyr nu en  ${product.name} för ${product.pris}. (Tid: ${tid}). (Datum: ${date})`; 
+
+
+
+            alert('Tack! Du har nu hyrt en ' + product.name + ' för ' + product.pris );
+            console.log('Köp genomfört: ', product);
+
+        });
+
+
+
+
+
+
     </script>
 
+s
 </body>
 
 </html>

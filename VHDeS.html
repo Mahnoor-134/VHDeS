@@ -6,12 +6,13 @@
 
     <link rel="stylesheet" href="VHDeS.css" />
     <title>VHDeS</title>
+
 </head>
 
 <body>
 
-    <h2> Vi Hyr Dig elScooter!</h2>
-    <h3>Hyra din ElScooter med en klick!</h3>
+    <h1 > Vi Hyr Dig elScooter!</h1>
+    <h2>Hyra din ElScooter med en klick!</h2>
 
     <p>log in: </p>
     <form id="Form">
@@ -41,7 +42,7 @@
             console.log(text + personnummer);
 
 
-            if (text == "jasmin" && personnummer == "00") {
+            if (text == "name" && personnummer == "0") {
                 name = text;
 
                 window.location.href = `vhdes2.html?username=${encodeURIComponent(name)}`;
