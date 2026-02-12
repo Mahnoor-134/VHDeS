@@ -17,7 +17,8 @@
         Minst 5 minuter till max 2 timmar.
     </h3>
 
-    <button id="val">Tid: </button>
+    <p>Tid:</p>
+
     <div>
         <p>Ange starttid: <input type="time" id="starttid"></p>
         <p>Ange sluttid: <input type="time" id="sluttid"></p>
@@ -31,16 +32,17 @@
 
     <script>
 
+        let timmer = 0;
+        let isAutoKnappActiv = false;
+        let hyrt = true;
+        let clickInterval;
+
         const params = new URLSearchParams(window.location.search);
         const text = document.getElementById("welcome");
         let username = params.get('username');
         if (username) {
             text.textContent = `Välkommen ${username}!`;
         }
-
-        let timmer = null;
-        let isAutoKnappActiv = false;
-    
 
 
         const hyra = document.getElementById('hyra');
@@ -52,20 +54,30 @@
             const tid = new Date().toLocaleTimeString();
             const date = new Date().toLocaleDateString();
 
+            let start = document.getElementById('starttid').value;
+            let slut = document.getElementById('sluttid').value;
+
+            if (!start || !slut) {
+                alert("Vänligen fyll i båda tiderna först!");
+                return;
+            }
+            //om man har valt rätt tid så visar den tiderna 
+            document.getElementById("resultat").innerText =
+                `Du har bokat från  ${start} till ${slut}`;
+
 
             kvittoText.textContent = `Bokat! Du hyr nu en  ${product.name} för ${product.pris}. (Tid: ${tid}). (Datum: ${date})`;
 
 
 
             alert('Tack! Du har nu hyrt en ' + product.name + ' för ' + product.pris);
-
             console.log('Köp genomfört: ', product);
 
 
-           
-
             if (!isAutoKnappActiv) {
                 isAutoKnappActiv = true;
+                hyrt = true;
+
                 clickInterval = setInterval(function () {
                     timmer++;
 
@@ -82,17 +94,26 @@
         });
 
         document.getElementById("val").addEventListener("click", function () {
-            let start = document.getElementById('starttid').value;
-            let slut = document.getElementById('sluttid').value;
-            if(slut<5 || slut>2 ){
-                alert("fel val"); 
-            }
-            if (start && slut) {
-                document.getElementById("resultat").innerText = ` du har valt tiden: ${start} till ${slut}`;
+            // det från chatgtp
+            // Gör om tiderna till Date-objekt
+            let startTid = new Date("1970-01-01T" + start);
+            let slutTid = new Date("1970-01-01T" + slut);
 
-            } else {
-                alert("Vänligen fyll i båda tiderna först! ")
+            // Räkna skillnad i minuter
+            let skillnad = (slutTid - startTid) / (1000 * 60);
+
+            // Kontrollera om sluttiden är före starttiden
+            if (skillnad <= 0) {
+                alert("Sluttiden måste vara efter starttiden!");
+                return;
             }
+
+            // Kontroll: minst 5 minuter och max 120 minuter
+            if (skillnad < 5 || skillnad > 120) {
+                alert("Du kan boka minst 5 minuter och max 2 timmar!");
+                return;
+            }
+
 
         });
 
@@ -103,7 +124,7 @@
 
     </script>
 
-    s
+
 </body>
 
 </html>
