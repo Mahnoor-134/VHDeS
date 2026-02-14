@@ -10,27 +10,34 @@
 <body>
 
     <h1> Vi Hyr Dig elScooter!</h1>
-<h5>S</h5>
+
     <h2 id="welcome">Välkommen!</h2>
+    <div id="bookingBox" class="available">
 
-    <h3>Här kan du hyra en elscooter
-        Minst 5 minuter till max 2 timmar.
-    </h3>
+        <h3>Här kan du hyra en elscooter
+            Minst 5 minuter till max 2 timmar.
+        </h3>
 
-    <p>Tid:</p>
+        <p>Tider:</p>
 
-    <div>
-        <p>Ange starttid: <input type="time" id="starttid"></p>
-        <p>Ange sluttid: <input type="time" id="sluttid"></p>
+        <div>
+            <p>Ange starttid: <input type="time" id="starttid"></p>
+            <p>Ange sluttid: <input type="time" id="sluttid"></p>
+        </div>
+        <div id="resultat"> </div>
+        <p id="pricePreview"></p>
+
+
+        <button id="hyra"> Hyra </button>
+        <button id="cancel" disabled>Avsluta hyra</button>
     </div>
-    <div id="resultat"> </div>
-
-
-    <button id="hyra"> Hyra </button>
 
     <p id="kvitto"> </p>
 
     <script>
+        const pricePerMinut = 3;
+        let isBooked = false;
+        let bookingTimer;
 
         let timmer = 0;
         let isAutoKnappActiv = false;
@@ -54,6 +61,10 @@
             const tid = new Date().toLocaleTimeString();
             const date = new Date().toLocaleDateString();
 
+            if (isBooked) {
+                alert("Du har redan en aktiv bokning!");
+                return;
+            }
             let start = document.getElementById('starttid').value;
             let slut = document.getElementById('sluttid').value;
 
@@ -61,6 +72,8 @@
                 alert("Vänligen fyll i båda tiderna först!");
                 return;
             }
+
+          
             //om man har valt rätt tid så visar den tiderna 
             document.getElementById("resultat").innerText =
                 `Du har bokat från  ${start} till ${slut}`;
@@ -116,9 +129,6 @@
 
 
         });
-
-
-
 
 
 
