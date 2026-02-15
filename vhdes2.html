@@ -30,31 +30,91 @@
 
         <button id="hyra"> Hyra </button>
         <button id="cancel" disabled>Avsluta hyra</button>
+
+        <P id="timeoutInfo"></P>
+        <p id="timer"></p>
     </div>
 
     <p id="kvitto"> </p>
 
+
     <script>
         const pricePerMinut = 3;
         let isBooked = false;
-        let bookingTimer;
+        let bookingTimeout;
+        let start;
+        let slut;
+        let autoClearTimer;
+        let countdown = 60;
+        let countdownInterval;
+        //let isAutoKnappActiv = false;
+        //let hyrt = false;
+        //let clickInterval;
+        //let timmer = 0;
 
-        let timmer = 0;
-        let isAutoKnappActiv = false;
-        let hyrt = true;
-        let clickInterval;
+
 
         const params = new URLSearchParams(window.location.search);
         const text = document.getElementById("welcome");
+
+        const bookingBox = document.getElementById("bookingBox");
+        const cancel = document.getElementById("cancel");
+        const timeoutInfo = document.getElementById("timeoutInfo");
+
+        const startInput = document.getElementById("starttid");
+        const slutInput = document.getElementById("sluttid");
+        const timerDisplay = document.getElementById("timer");
+
+        //const cancel = document.getElementById("cancel");
+        const hyra = document.getElementById('hyra');
+        const kvittoText = document.getElementById('kvitto');
+
         let username = params.get('username');
         if (username) {
             text.textContent = `Välkommen ${username}!`;
         }
 
+        //fick hjälp från chatgpt
+        function resetAutoClearTimer() {
+            clearTimeout(autoClearTimer);
+            clearInterval(countdownInterval);
 
-        const hyra = document.getElementById('hyra');
-        const kvittoText = document.getElementById('kvitto');
+            let autoCountdown = 60;
+            timerDisplay.textContent = `Tid kvar: ${autoCountdown} sekunder`;
+            timeoutInfo.textContent = "Bokningen  måste bekräftas inom 60 sekunder.";
 
+            countdownInterval = setInterval(() => {
+                autoCountdown--;
+                timerDisplay.textContent = `Tid kvar: ${Math.max(autoCountdown, 0)} sekunder`;
+
+                if (autoCountdown <= 0) {
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
+
+
+
+            autoClearTimer = setTimeout(() => {
+
+                startInput.value = '';
+                slutInput.value = '';
+                resultat.textContent = '';
+                pricePreview.textContent = '';
+                kvittoText.textContent = '';
+                timerDisplay.textContent = '';
+                timeoutInfo.textContent = '';
+                clearInterval(countdownInterval);
+                //  document.getElementById("pricePreview").textContent = "";
+
+                console.log("Tiden gick ut! Bokningen avslutades automatiskt.");
+            }, 60000);
+        }
+
+
+        startInput.addEventListener("input", resetAutoClearTimer);
+        slutInput.addEventListener("input", resetAutoClearTimer);
+
+        //hyra
         hyra.addEventListener('click', function () {
 
             const product = { name: 'elscoter', pris: '150 kr' };
@@ -65,73 +125,174 @@
                 alert("Du har redan en aktiv bokning!");
                 return;
             }
-            let start = document.getElementById('starttid').value;
-            let slut = document.getElementById('sluttid').value;
+
+            start = document.getElementById('starttid').value;
+            slut = document.getElementById('sluttid').value;
 
             if (!start || !slut) {
                 alert("Vänligen fyll i båda tiderna först!");
                 return;
             }
 
-          
-            //om man har valt rätt tid så visar den tiderna 
-            document.getElementById("resultat").innerText =
-                `Du har bokat från  ${start} till ${slut}`;
 
-
-            kvittoText.textContent = `Bokat! Du hyr nu en  ${product.name} för ${product.pris}. (Tid: ${tid}). (Datum: ${date})`;
-
-
-
-            alert('Tack! Du har nu hyrt en ' + product.name + ' för ' + product.pris);
-            console.log('Köp genomfört: ', product);
-
-
-            if (!isAutoKnappActiv) {
-                isAutoKnappActiv = true;
-                hyrt = true;
-
-                clickInterval = setInterval(function () {
-                    timmer++;
-
-                    text.textContent = timmer;
-                }, 1000);
-                ;
-            } else {
-
-                isAutoKnappActiv = false;
-                // isAutoKnappActiv = 6; 
-                clearInterval(clickInterval);
-            };
-
-        });
-
-        document.getElementById("val").addEventListener("click", function () {
             // det från chatgtp
             // Gör om tiderna till Date-objekt
             let startTid = new Date("1970-01-01T" + start);
             let slutTid = new Date("1970-01-01T" + slut);
 
             // Räkna skillnad i minuter
-            let skillnad = (slutTid - startTid) / (1000 * 60);
+            let minutes = Math.round((slutTid - startTid) / (1000 * 60));
 
             // Kontrollera om sluttiden är före starttiden
-            if (skillnad <= 0) {
+            if (minutes <= 0) {
                 alert("Sluttiden måste vara efter starttiden!");
                 return;
             }
 
             // Kontroll: minst 5 minuter och max 120 minuter
-            if (skillnad < 5 || skillnad > 120) {
+            if (minutes < 5 || minutes > 120) {
                 alert("Du kan boka minst 5 minuter och max 2 timmar!");
                 return;
             }
 
+            // hittills var det chatgpt 
 
+
+
+            let totalPrice = minutes * pricePerMinut;
+
+            document.getElementById("resultat").innerText =
+                `Du har bokat från  ${start} till ${slut}`;
+
+            //alert('Tack! Du har nu hyrt en ' + product.name + ' för ' + product.pris);
+            console.log('Köp genomfört: ', product);
+
+            alert(`Du har bokat i ${minutes}  minutes. Totalt pris: ${totalPrice} kr`);
+
+            kvittoText.textContent = `Bokat! Du hyr nu en  ${product.name} för Tid: ${minutes} minuter Pris: ${totalPrice} kr Start: ${start} Slut: ${slut}. (Tid: ${tid}). (Datum: ${date})`;
+
+            /////////////////////////
+
+
+            bookingBox.classList.remove("available");
+            bookingBox.classList.add("booked");
+
+            isBooked = true;
+            bookingBox.classList.remove("available");
+            bookingBox.classList.add("booked");
+            cancel.disabled = false;
+
+
+            /*    clearTimeout(autoClearTimer);
+                countdown = 60;
+                timerDisplay.textContent = `Tid kvar: ${Math.max(countdown, 0)} sekunder`;
+    
+                countdownInterval = setInterval(() => {
+                    countdown--;
+                    if (countdown <= 0) {
+                        clearInterval(countdownInterval);
+    
+                    }
+                    timerDisplay.textContent = `Tid kvar: ${countdown} sekunder`;
+                }, 1000);
+    
+    */
+            clearTimeout(autoClearTimer);
+            clearInterval(countdownInterval);
+            timerDisplay.textContent = '';
+
+            timeoutInfo.textContent = "Bokningen är aktiv."
+
+
+            bookingTimeout = setTimeout(() => {
+                if (isBooked) {
+                    endBooking("Tiden gick ut! Bokningen avslutades automatiskt.")
+
+                }
+            }, 60000);
+
+        })
+
+
+        /* if (!isAutoKnappActiv) {
+             isAutoKnappActiv = true;
+             hyrt = true;
+ 
+             clickInterval = setInterval(function () {
+                 timmer++;
+                 text.textContent = timmer;
+ 
+             }, 1000);
+ 
+         } else {
+ 
+             isAutoKnappActiv = false;
+             // isAutoKnappActiv = 6; 
+             clearInterval(clickInterval);
+         }
+ */
+
+
+
+        //   cancel.disabled = false;
+
+
+        //  
+
+
+        function endBooking(message) {
+
+            alert(message);
+
+            isBooked = false;
+            clearTimeout(bookingTimeout);
+            clearInterval(countdownInterval);
+            startInput.value = '';
+            slutInput.value = '';
+
+
+            document.getElementById('resultat').innerText = "";
+            timerDisplay.textContent = '';
+            kvittoText.textContent = '';
+            timeoutInfo.textContent = '';
+
+
+
+            bookingBox.classList.remove("booked");
+            bookingBox.classList.add("available");
+            cancel.disabled = true;
+        }
+
+        cancel.addEventListener("click", function () {
+
+
+
+            if (!isBooked) {
+                alert("Du har ingen aktiv bokning");
+                return;
+            }
+
+            endBooking("Din bokning är avslutad");
+            /*
+                        isBooked = false;
+                        document.getElementById('starttid').value = "";
+                        document.getElementById('sluttid').value = "";
+                        document.getElementById('resultat').innerText = "";
+                        kvittoText.textContent = "";
+                        timeoutInfo.textContent = "";
+            
+            
+                        cancel.disabled = true;
+                        document.getElementById("timer").textContent = "";
+            
+                        cancel.disabled = true;
+                        bookingBox.classList.remove("booked");
+                        bookingBox.classList.add("available");
+                   
+            
+            
+            */
         });
-
-
-
     </script>
 
 

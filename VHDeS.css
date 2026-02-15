@@ -1,53 +1,109 @@
 * {
     margin: 0;
     padding: 5px;
+    box-sizing: border-box;
 }
 
 body {
-    background-color: #e6fff8;
+    background-color: #f6fcfc;
     font-family: 'Times New Roman', Times, serif;
-    margin: 36px;
+    margin: 20px;
+    
 }
 
 h1 {
     display: flex;
     margin: 30px;
     justify-content: center;
-    color: #11465f ;
+    color: #0c2430;
 }
 
 h2 {
     display: flex;
     justify-content: baseline;
     margin: 30px;
-    color: #11465f ;
+    color: #071a23;
 }
-h3{
+
+h3 {
     display: flex;
     justify-content: baseline;
     margin: 30px;
-    color: #11465f ;
+    color: #0e2d3b;
     padding: 36px;
 }
 
 
 #submit {
     color: rgb(255, 255, 255);
-    background-color: #11465f;
+    background-color: #0c2531;
     display: flex;
     padding: 8px;
     justify-content: center;
 
 }
-#hyra{
-    color: rgb(255, 255, 255);
-    background-color: #11465f;
-    display: flex;
-    padding: 12px;
-    justify-content:center;
-    align-items: center;
-    margin: 120px;
+
+#hyra {
+    background-color: #164356;
+}
+
+#bookingBox.available {
+    border: 2px solid rgb(0, 132, 137);
+    background-color: #e6ffff;
+    color: rgb(3, 3, 5);
+    padding: 15px;
+    margin: 20px;
+
+}
+
+#bookingBox.booked {
+
+    border: 2px solid green;
+    background-color: #eafcea;
+    color: rgb(0, 0, 0);
+    padding: 15px;
+    margin: 20px;
+}
+
+#timer {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+#timeoutInfo {
+    color: #555;
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+#kvitto {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+}
+
+button {
+    margin: 10px, 10px, 10px, 10px;
     font-size: large;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    color: white;
+}
 
+#cancel {
 
+    background-color: #c83737;
+
+}
+
+div>p input[type="time"] {
+    margin-left: 10px;
+}
+
+#bookingBox {
+    display: inline-block;
 }
