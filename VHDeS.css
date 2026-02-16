@@ -5,24 +5,41 @@
 }
 
 body {
-    background-color: #f6fcfc;
+    background-color: #eefffc;
     font-family: 'Times New Roman', Times, serif;
     margin: 20px;
-    
+
+}
+
+.hero-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5), ), url("elscooter.png");
+    height: 10%;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    background-size: cover;
+}
+
+.hero-text {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
 }
 
 h1 {
     display: flex;
-    margin: 30px;
+    margin: 36px;
     justify-content: center;
-    color: #0c2430;
+    color: #ffffff;
 }
 
 h2 {
     display: flex;
     justify-content: baseline;
-    margin: 30px;
-    color: #071a23;
+    color: #ffffff;
 }
 
 h3 {
@@ -49,17 +66,18 @@ h3 {
 
 #bookingBox.available {
     border: 2px solid rgb(0, 132, 137);
-    background-color: #e6ffff;
+    background-color: #d9fcfc;
     color: rgb(3, 3, 5);
     padding: 15px;
     margin: 20px;
+
 
 }
 
 #bookingBox.booked {
 
     border: 2px solid green;
-    background-color: #eafcea;
+    background-color: #e0ffe0;
     color: rgb(0, 0, 0);
     padding: 15px;
     margin: 20px;
@@ -79,10 +97,18 @@ h3 {
 
 #kvitto {
     margin-top: 15px;
+    margin: 20px;
     padding: 10px;
     border: 1px solid #ccc;
     background-color: #ffffff;
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+
 }
+
 
 button {
     margin: 10px, 10px, 10px, 10px;
@@ -106,4 +132,11 @@ div>p input[type="time"] {
 
 #bookingBox {
     display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
 }
+
+footer {}
