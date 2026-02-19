@@ -1,59 +1,60 @@
+/* flesta kod används mer än en gång så jag skriv kommentar bara en gång*/
 * {
-    margin: 0;
-    padding: 5px;
-    box-sizing: border-box;
+    margin: 0; /* För att ta bort standardmarginaler från alla element1 */
+    padding: 5px; /* För att lägga till lite padding runt alla element för bättre layout */
+    box-sizing: border-box; /* För att inkludera padding och border i elementens totala bredd och höjd, vilket gör det lättare att hantera layouten */
 }
 
 body {
-    background-color: #eefffc;
-    font-family: 'Times New Roman', Times, serif;
-    margin: 20px;
+    background-color: #eefffc; /* background colour */
+    font-family: 'Times New Roman', Times, serif; /* För att sätta en serif-typsnitt för hela sidan */
+    margin: 20px; /* För att lägga till en margin runt hela sidan i body */
 
 }
 
 .hero-image {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("elscooter.png");
-    height: 100vh;
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
-    background-size: cover;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("elscooter.png"); /* För att sätta en bakgrundsbild,en halvtransparent svart färg*/
+    height: 100vh; /* För att göra hero-bilden lika hög som viewporten*/
+    background-repeat: no-repeat; /* För att förhindra att bakgrundsbilden upprepas, bara visas en gång */
+    background-position: center; /* För att centrera bakgrundsbilden både horisontellt och vertikalt  */
+    position: relative;     /*  texten  den kan placeras exakt där vi vill ha den */
+    background-size: cover; /* För att göra så att bakgrundsbilden täcker hela hero-bilden*/
 }
 
 .hero-text {
 
-    display: flex;
-    justify-content: center;
-    align-items: baseline;
-    flex-direction: column;
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-     color: white;
+    display: flex; /* För att använda flexbox-layouten*/
+    justify-content: center; /* För att centrera texten */    
+    align-items: baseline; /* För att justera texten vertikalt */
+    flex-direction: column; /* För att arrangera texten i en kolumn */
+    position: absolute; /* För att positionera texten absolut inom hero-bilden*/
+    top: 15%; /* För att placera texten 15% från toppen av hero-bilden, vilket ger en bra vertikal placering */
+    left: 50%; /*  centrerar den horisontellt */
+    transform: translate(-50%, -50%); /*  centrerad både horisontellt och vertikalt */
+     color: white; /* För att sätta textfärgen till vit,*/
 }
 
 #welcome {
-    color: white;
+    color: white; /* För att sätta textfärgen till vit*/
+     font-weight: 100; /* För att göra texten lättare  */
+     font-size: larger; /* För att göra texten större än standardstorleken */
 
 }
 
 h1 {
-    display: flex;
-    margin: 36px;
-
+    display: flex;  /* För att använda flexbox-layouten */
+    margin: 36px; /* För att lägga till en margin runt h1-elementet */
     color: #ffffff;
 }
 
 h2 {
     display: flex;
-
     color: #ffffff;
-    margin: 16px
+    margin: 16px 0; /* För att lägga till en margin runt h2-elementet */
 }
 
 h3 {
-    display: flex;
+    display: flex; 
     justify-content: baseline;
     margin: 30px;
     color: #0e2d3b;
@@ -61,7 +62,7 @@ h3 {
 }
 
 
-#submit {
+#submit { /* För att styla "Hyra"-knappen, med en blågrön bakgrundsfärg, vit text och större storlek */
     color: rgb(255, 255, 255);
     background-color: #0c2531;
     display: flex;
@@ -70,7 +71,7 @@ h3 {
 
 }
 
-.login {
+.login { /* För att styla inloggningsformuläret, med en mörk bakgrundsfärg, vit text och centrerad layout */
     color: #ffffff;
     font-weight: 100;
     font-size: larger;
@@ -78,8 +79,8 @@ h3 {
 
 
 }
-
-#Form {
+ 
+#Form { /* För att styla formuläret där användaren loggar in, med en mörk bakgrundsfärg, vit text och centrerad layout */
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -89,11 +90,11 @@ h3 {
     color: white;
 }
 
-#hyra {
+#hyra { 
     background-color: #164356;
 }
 
-#bookingBox.available {
+#bookingBox.available { /* För att definiera stilarna för bokningsboxen när den är tillgänglig, till ex en blågrön border, ljusblå bakgrund och mörk text */
     border: 2px solid rgb(0, 132, 137);
     background-color: #d9fcfc;
     color: rgb(3, 3, 5);
@@ -103,7 +104,7 @@ h3 {
 
 }
 
-#bookingBox.booked {
+#bookingBox.booked { /* För att definiera stilarna för bokningsboxen när den är bokad, till ex en grön border, ljusgrön bakgrund och svart text */
 
     border: 2px solid green;
     background-color: #e0ffe0;
@@ -112,19 +113,19 @@ h3 {
     margin: 20px;
 }
 
-#timer {
-    font-weight: bold;
+#timer { /* För att styla nedräknings displayen, med en större fontstorlek, fet stil och centrerad layout */
+    font-weight: bold; 
     margin-bottom: 15px;
 }
 
-#timeoutInfo {
+#timeoutInfo { /* För att styla timeout-informationen, med en mindre fontstorlek, grå färg och centrerad layout */
     color: #555;
     font-weight: bold;
     font-style: italic;
     margin-bottom: 15px;
 }
 
-#kvitto {
+#kvitto { /* För att styla kvittoinformationen, med en mindre fontstorlek, grå färg och centrerad layout */
     margin-top: 15px;
     margin: 20px;
     padding: 10px;
@@ -139,8 +140,8 @@ h3 {
 }
 
 
-button {
-    margin: 10px, 10px, 10px, 10px;
+button { /* För att styla alla knappar, med en blågrön bakgrundsfärg, vit text, större storlek och rundade hörn */
+    margin: 10px;
     font-size: large;
     cursor: pointer;
     border: none;
@@ -155,13 +156,14 @@ button {
 
 }
 
-div>p input[type="time"] {
+div>p input[type="time"] { /* För att styla start- och sluttid-input-fälten som är av typen "time" */
+    padding: 8px;
     margin-left: 10px;
 }
 
 #bookingBox {
-    display: inline-block;
-    position: absolute;
+    display: inline-block; /* För att  allt kan ligga bredvid varandra på samma rad */
+    position: absolute; /* För att positionera bokningsboxen absolut inom sidan*/
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

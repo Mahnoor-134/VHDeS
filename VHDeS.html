@@ -1,63 +1,74 @@
-<html lang="en">
+<html lang="en"> <!--  Det är start av html-dokument. lang="en" betyder att språket är engelska -->
 
-<head>
-    <meta charset="UTF-8">
+<head> <!-- här ligger information om sidan -->
+
+    <meta charset="UTF-8"><!-- Visar svenska bokstaver som å,ä och ö -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="VHDeS.css" />
-    <title>VHDeS</title>
+    <!-- Länkar till en CSS-fil som heter VHDeS.css, där stilarna för sidan definieras -->
+
+    <title>VHDeS</title> <!-- Title som visas i webbläsarens flik -->
 
 </head>
 
-<body>
+<body> <!-- Allt här inne är det som visas på sidan -->
 
 
-    <div class="hero-image">
-   
+    <div class="hero-image"> <!-- Hero sektion, det visar den stora bilden med texten ovanpå-->
         <div class="hero-text">
-            <h1> Vi Hyr Dig elScooter!</h1>
-            <h2>Hyra din ElScooter med en klick!</h2>
-        </div>
-    
 
+            <h1> Vi Hyr Dig elScooter!</h1> <!-- Huvudrubrik -->
+
+            <h2>Hyra din ElScooter med en klick!</h2> <!-- Underrubrik -->
+        </div>
     </div>
 
 
-    <form id="Form">
+    <form id="Form"> <!-- Formulär för inloggning, användare ska skriva in information för att logga in -->
+
         <p class="login">Logga in: </p>
+
         <label for="name">Namn: </label>
-        <input type="text" name="name" id="name">
-        <br>
+        <!-- Label för namnfältet, "for" attributet kopplar den till input-fältet med id "name" -->
+        <input type="text" name="name" id="name"> <!-- Input är där användaren skriver -->
+        <br> <!-- Radbrytning -->
 
         <label for="personnummer"> Ange ditt personnummer(ÅÅMMDD-XXXX): </label>
+        <!-- Label för personnummerfältet, "for" attributet kopplar den till input-fältet med id "personnummer" -->
         <input type="number" name="personnummer" id="personnummer">
+        <!-- type="number" gör att man bara kan skriva siffror -->
         <br>
-        <input id="submit" type="submit" value="logga in">
+        <input id="submit" type="submit" value="logga in"> <!-- kanpp för submit infoemation -->
 
     </form>
 
     <script>
-        let name = null;
-        const form = document.getElementById('Form');
+        // JavaScript-kod som hanterar inloggning och navigering till nästa sida
 
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
+        // Variabler för att lagra användarens namn och formuläret
 
+        let name = null; //just nu är name null, det betyder att ingen har loggat in än
+        const form = document.getElementById('Form'); //hämtar formuläret med id "Form" och sparar det i variabeln form
 
-            const text = document.getElementById('name').value;
-            const personnummer = document.getElementById('personnummer').value;
-
-
-            console.log(text + personnummer);
+        form.addEventListener('submit', function (event) { // Lägger till en event listener som lyssnar på när formuläret skickas (submit) och kör en funktion när det händer
+            event.preventDefault();// Förhindrar att sidan laddas om när formuläret skickas, så att vi kan hantera inloggningen med JavaScript istället
 
 
-            if (text == "name" && personnummer == "0") {
-                name = text;
+            const text = document.getElementById('name').value; // Hämtar värdet som användaren har skrivit i namnfältet (input med id "name") och sparar det i variabeln text
+            const personnummer = document.getElementById('personnummer').value;// Hämtar värdet som användaren har skrivit i personnummerfältet (input med id "personnummer") och sparar det i variabeln personnummer
 
-                window.location.href = `vhdes2.html?username=${encodeURIComponent(name)}`;
+
+            console.log(text + personnummer);// Skriver ut namnet och personnumret i webbläsarens konsol för att kontrollera att vi har hämtat rätt värden
+
+
+            if (text == "name" && personnummer == "0") {// Kontrollerar om namnet är "name" och personnumret är "0". Detta är en enkel inloggningskontroll, i verkligheten skulle
+                name = text;// Om inloggningen är korrekt, sparar vi namnet i variabeln name
+
+                window.location.href = `vhdes2.html?username=${encodeURIComponent(name)}`;// Navigerar till sidan "vhdes2.html" och skickar med användarnamnet som en query parameter i URL:en. encodeURIComponent används för att säkerställa att namnet är korrekt formaterat i URL:en
             }
-            else {
-                alert("Fel användarnamn eller lösenord!");
+            else {// Om inloggningen inte är korrekt, visar vi en alert med ett felmeddelande
+                alert("Fel användarnamn eller lösenord!"); // Visar en alert med ett felmeddelande om inloggningen inte är korrekt
             }
         });
 
@@ -68,16 +79,16 @@
 
 
 
-    </script>
+    </script> <!--Slut på JavaScript-koden för inloggning-->
 
 
 
 
-    <footer>
+    <footer> <!-- texten som finns längs ner -->
         <p>Vi hyr dig en elScooter.</p>
     </footer>
-</body>
+</body> <!-- Stänger body -->
 
 
 
-</html>
+</html><!-- Stänger hela HTML-dokumentet -->

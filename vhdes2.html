@@ -2,69 +2,67 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="VHDeS.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="VHDeS.css" /> <!-- det länkar till en CSS-fil som heter VHDeS.css, där stilarna för sidan definieras -->
     <title>Document</title>
 </head>
 
 <body>
-    <div class="hero-image">
-        
-        <div class="hero-text">
+    <div class="hero-image"> <!-- Hero sektion, det visar den stora bilden med texten ovanpå-->
+
+        <div class="hero-text"> <!-- Texten som visas ovanpå hero bilden-->
 
             <h1> Vi Hyr Dig elScooter!</h1>
-            <h2 id="welcome">Välkommen!</h2>
+            <h2 id="welcome">Välkommen!</h2> <!-- det är underrubrik, den har id "welcome" så att vi kan uppdatera den med JavaScript för att visa användarens namn när de loggar in -->
 
         </div>
-
-      
 
     </div>
 
 
-    <div id="bookingBox" class="available">
+    <div id="bookingBox" class="available"> <!-- Boknings boxen där användaren kan boka en elscooter, startar som "available" -->
 
-        <h3>Här kan du hyra en elscooter
+        <h3>Här kan du hyra en elscooter 
             Minst 5 minuter till max 2 timmar.
-        </h3>
+        </h3><!-- Rubrik som förklarar bokningsreglerna -->
 
         <p>Tider:</p>
 
         <div>
-            <p>Ange starttid: <input type="time" id="starttid"></p>
-            <p>Ange sluttid: <input type="time" id="sluttid"></p>
+            <p>Ange starttid: <input type="time" id="starttid"></p> <!-- Input-fält för att ange starttid -->
+            <p>Ange sluttid: <input type="time" id="sluttid"></p>    <!-- Input-fält för att ange slutid -->    
         </div>
-        <div id="resultat"> </div>
-        <p id="pricePreview"></p>
+        <div id="resultat"> </div>  <!-- Element där bokningstiderna kommer att visas -->
+        <p id="pricePreview"></p>   <!-- Element där prisinformationen kommer att visas -->
 
 
-        <button id="hyra"> Hyra </button>
-        <button id="cancel" disabled>Avsluta hyra</button>
+        <button id="hyra"> Hyra </button> <!-- Knapp för  hyra en elscooter -->
+        <button id="cancel" disabled>Avsluta hyra</button> <!-- Knapp för att avsluta hyra -->
 
-        <P id="timeoutInfo"></P>
-        <p id="timer"></p>
+        <P id="timeoutInfo"></P> <!-- Elementet där information om timeouten kommer att visas -->
+        <p id="timer"></p>  <!-- Elementet där nedräkningen kommer att visas -->
     </div>
 
-    <p id="kvitto"> </p>
+    <p id="kvitto"> </p> <!-- Elementet där kvittoinformationen kommer att visas -->
 
 
     <script>
-        const pricePerMinut = 3;
-        let isBooked = false;
-        let bookingTimeout;
-        let start;
-        let slut;
-        let autoClearTimer;
-        let countdown = 60;
-        let countdownInterval;
+        const pricePerMinut = 3; // Pris per minut i kronor
+        let isBooked = false; // Varabel för att hålla reda på om det finns en aktiv bokning
+        let bookingTimeout;// Variabl för att hålla reda på timeout för bokningen
+        let start; //variable för startid
+        let slut; //varible för sluttid
+        let autoClearTimer; // Timer som rensar bokningen om den inte bekräftas
+        let countdown = 60; // startvärde för nedräkning
+        let countdownInterval; // spara intervallet som rknar ner värje sekund
         //let isAutoKnappActiv = false;
         //let hyrt = false;
         //let clickInterval;
         //let timmer = 0;
 
 
-
-        const params = new URLSearchParams(window.location.search);
+        //för att hämta användares namn från url
+        const params = new URLSearchParams(window.location.search); // 
         const text = document.getElementById("welcome");
 
         const bookingBox = document.getElementById("bookingBox");
@@ -76,36 +74,37 @@
         const timerDisplay = document.getElementById("timer");
 
         //const cancel = document.getElementById("cancel");
-        const hyra = document.getElementById('hyra');
-        const kvittoText = document.getElementById('kvitto');
+        const hyra = document.getElementById('hyra');// knappen för att hyra en elscoter
+        const kvittoText = document.getElementById('kvitto');// elementet där kvitto informationen kommer att visas
 
-        let username = params.get('username');
-        if (username) {
-            text.textContent = `Välkommen ${username}!`;
+        let username = params.get('username');// hämtar värdet av "username" från URL:en och sparar det i variabeln username
+        if (username) {// Om det finns ett användarnamn i URL:en, visa det i välkomstmeddelandet
+            text.textContent = `Välkommen ${username}!`;//
         }
 
         //fick hjälp från chatgpt
-        function resetAutoClearTimer() {
-            clearTimeout(autoClearTimer);
-            clearInterval(countdownInterval);
+        function resetAutoClearTimer() {// en funktion som startar eller återställer nedräkningen och timeouten när användaren börjar skriva i input-fälten
+            clearTimeout(autoClearTimer);// stoppar tidigare timeout
+            clearInterval(countdownInterval);// Stoppar tidigare nedräkning och timeout
 
-            let autoCountdown = 60;
-            timerDisplay.textContent = `Tid kvar: ${autoCountdown} sekunder`;
-            timeoutInfo.textContent = "Bokningen  måste bekräftas inom 60 sekunder.";
+            let autoCountdown = 60;// Startvärde för nedräkningen i sekunder
+            timerDisplay.textContent = `Tid kvar: ${autoCountdown} sekunder`;// Visar nedräkningen när användaren börjar skriva
+            timeoutInfo.textContent = "Bokningen  måste bekräftas inom 60 sekunder.";// Visar information om att bokningen måste bekräftas inom 60 sekunder
 
-            countdownInterval = setInterval(() => {
-                autoCountdown--;
-                timerDisplay.textContent = `Tid kvar: ${Math.max(autoCountdown, 0)} sekunder`;
+            countdownInterval = setInterval(function(){// Startar nedräkningen varje sekund
+                autoCountdown--;// Minskar nedräkningen varje sekund
+                timerDisplay.textContent = `Tid kvar: ${Math.max(autoCountdown, 0)} sekunder`;// Uppdaterar nedräkningen varje sekund
 
-                if (autoCountdown <= 0) {
-                    clearInterval(countdownInterval);
+                if (autoCountdown <= 0) { // När nedräkningen når 0, rensa bokningen
+                    clearInterval(countdownInterval); // Stoppa nedräkningen när tiden är ute
                 }
-            }, 1000);
+            }, 1000); //kör varje 1000 millisekunder (1 sekund)
 
 
 
-            autoClearTimer = setTimeout(() => {
+            autoClearTimer = setTimeout(function() {
 
+                //tömmer alla fält om tiden går ut
                 startInput.value = '';
                 slutInput.value = '';
                 resultat.textContent = '';
@@ -116,30 +115,30 @@
                 clearInterval(countdownInterval);
                 //  document.getElementById("pricePreview").textContent = "";
 
-                console.log("Tiden gick ut! Bokningen avslutades automatiskt.");
-            }, 60000);
+                console.log("Tiden gick ut! Bokningen avslutades automatiskt.");// Logga i konsolen att tiden gick ut och bokningen avslutades
+            }, 60000);// Starta timeouten som rensar bokningen efter 60 sekunder (60000 millisekunder)
         }
 
 
-        startInput.addEventListener("input", resetAutoClearTimer);
-        slutInput.addEventListener("input", resetAutoClearTimer);
+        startInput.addEventListener("input", resetAutoClearTimer);// Lför att lägg till event listeners på start- och sluttid-input-fälten som anropar resetAutoClearTimer-funktionen när användaren börjar skriva i dem
+        slutInput.addEventListener("input", resetAutoClearTimer);// för att Lägga till event listeners på start- och sluttid-input-fälten som anropar resetAutoClearTimer-funktionen när användaren börjar skriva i dem
 
-        //hyra
+        // När användaren klickar på "Hyra"-knappen, hantera bokningen
         hyra.addEventListener('click', function () {
 
-            const product = { name: 'elscoter', pris: '150 kr' };
-            const tid = new Date().toLocaleTimeString();
-            const date = new Date().toLocaleDateString();
+            const product = { name: 'elscoter', pris: '150 kr' };// skapar et objekt som representerar produkten som hyrs, i det här fallet en elscooter med ett pris
+            const tid = new Date().toLocaleTimeString();// det hämtar den aktuella tiden och spara den i variabeln tid
+            const date = new Date().toLocaleDateString();// för att hämta det aktuella datumet och spara den i variabeln date
 
-            if (isBooked) {
-                alert("Du har redan en aktiv bokning!");
-                return;
+            if (isBooked) {// kontrollera om det redan finns en aktiv bokning, och om så är fallet, visa en alert och avbryt bokningen
+                alert("Du har redan en aktiv bokning!");// visa en alert om det redan finns en aktiv bokning
+                return;// det avbryt bokningen om det redan finns en aktiv bokning
             }
 
-            start = document.getElementById('starttid').value;
-            slut = document.getElementById('sluttid').value;
+            start = document.getElementById('starttid').value;// det hämta värdet från starttid-input-fältet och spara det i variabeln start
+            slut = document.getElementById('sluttid').value;//det hämtar värdet från sluttid-input-fältet och spara det i variabeln slut
 
-            if (!start || !slut) {
+            if (!start || !slut) { //
                 alert("Vänligen fyll i båda tiderna först!");
                 return;
             }
@@ -169,31 +168,33 @@
 
 
 
-            let totalPrice = minutes * pricePerMinut;
+            let totalPrice = minutes * pricePerMinut; // det beräknar total priset för bokning
 
             document.getElementById("resultat").innerText =
-                `Du har bokat från  ${start} till ${slut}`;
+                `Du har bokat från  ${start} till ${slut}`; //visar från vilket start -till slut tid bokning är
+
+            document.getElementById("pricePreview").textContent = `Totalt pris: ${totalPrice} kr`; // visar att användaren totala priset
 
             //alert('Tack! Du har nu hyrt en ' + product.name + ' för ' + product.pris);
             console.log('Köp genomfört: ', product);
 
-            alert(`Du har bokat i ${minutes}  minutes. Totalt pris: ${totalPrice} kr`);
+            alert(`Du har bokat i ${minutes}  minutes. Totalt pris: ${totalPrice} kr`); // det visar en alert, popup meddelande till användaren med bokningstider och pris
 
-            kvittoText.textContent = `Bokat! Du hyr nu en  ${product.name} för Tid: ${minutes} minuter Pris: ${totalPrice} kr Start: ${start} Slut: ${slut}. (Tid: ${tid}). (Datum: ${date})`;
+            kvittoText.textContent = `Bokat! Du hyr nu en  ${product.name} för Tid: ${minutes}
+             minuter Pris: ${totalPrice} kr Start: ${start} Slut: ${slut}. (Tid: ${tid}). (Datum: ${date})`; // det uppdaterar kvitto texten i html 
 
-            /////////////////////////
 
+            bookingBox.classList.remove("available");// tar bort css-klassen "avialable "från bokningsbox
+            bookingBox.classList.add("booked"); //lägger till css klassen
 
+            isBooked = true; // sätter isbooked till true och hindrar dubbelbokning
             bookingBox.classList.remove("available");
             bookingBox.classList.add("booked");
-
-            isBooked = true;
-            bookingBox.classList.remove("available");
-            bookingBox.classList.add("booked");
-            cancel.disabled = false;
+            cancel.disabled = false; //för avboka bokning 
 
 
-            /*    clearTimeout(autoClearTimer);
+            /*  gamla kod
+              clearTimeout(autoClearTimer);
                 countdown = 60;
                 timerDisplay.textContent = `Tid kvar: ${Math.max(countdown, 0)} sekunder`;
     
@@ -208,82 +209,77 @@
     
     */
             clearTimeout(autoClearTimer);
-            clearInterval(countdownInterval);
-            timerDisplay.textContent = '';
+            clearInterval(countdownInterval);// det rensar tidigare timeout och nedräkning när bokningen bekräftas
+            timerDisplay.textContent = '';// det rensar nedräkningen när bokningen bekräftas
 
-            timeoutInfo.textContent = "Bokningen är aktiv."
+            timeoutInfo.textContent = "Bokningen är aktiv." // visar information om att bokningen är aktiv
 
 
-            bookingTimeout = setTimeout(() => {
-                if (isBooked) {
-                    endBooking("Tiden gick ut! Bokningen avslutades automatiskt.")
+            bookingTimeout = setTimeout(function() { // det startar en timeout som automatiskt avslutar bokningen efter 60 sekunder
+                if (isBooked) { // Om bokningen fortfarande är aktiv efter 60 sekunder, avsluta den automatiskt
+                    endBooking("Tiden gick ut! Bokningen avslutades automatiskt.") // det anropa funktionen endBooking med ett meddelande om att tiden gick ut och bokningen avslutades
 
                 }
-            }, 60000);
+            }, 60000); // Starta timeouten som rensar bokningen efter 60 sekunder (60000 millisekunder)
 
         })
 
 
-        /* if (!isAutoKnappActiv) {
+        /* gamla koden för auto knapp innan jag gjorde resetAutoClearTimer funktionen
+
+          hyra.addEventListener('click', function () { 
+        if (!isAutoKnappActiv) {
              isAutoKnappActiv = true;
              hyrt = true;
- 
              clickInterval = setInterval(function () {
                  timmer++;
                  text.textContent = timmer;
- 
              }, 1000);
- 
          } else {
- 
              isAutoKnappActiv = false;
              // isAutoKnappActiv = 6; 
              clearInterval(clickInterval);
          }
  */
-
-
-
         //   cancel.disabled = false;
+    
 
 
-        //  
+        function endBooking(message) {// det är en funktion som avslutar bokningen, tar ett meddelande som parameter för att visa i en alert
+
+            alert(message);// visar en alert med det meddelande som skickas till funktionen, t.ex. att bokningen är avslutad eller att tiden gick ut
+
+            isBooked = false;// det updatera bokningsstatusen när bokningen avslutas
+            clearTimeout(bookingTimeout);// för att rensa timeout som automatist avslutar bokningen när den inte längre är aktiv
+            clearInterval(countdownInterval);// Rensa timeouten och nedräkningen när bokningen avslutas
+            startInput.value = '';// för att rensa start-input-fälten när bokningen avslutas
+            slutInput.value = '';// för att rensa sluttid-input-fälten när bokningen avslutas
 
 
-        function endBooking(message) {
+            document.getElementById('resultat').innerText = "";// rensa resultatinformationen när bokningen avslutas
+            document.getElementById('pricePreview').textContent = '';// det rensar prisinformationen
+            timerDisplay.textContent = '';// rensa nedräkningen när bokningen avslutas
+            kvittoText.textContent = '';// rensa kvittoinformationen när bokningen avslutas
+            timeoutInfo.textContent = '';// rensa all bokningsinformation och status när bokningen avslutas
 
-            alert(message);
-
-            isBooked = false;
-            clearTimeout(bookingTimeout);
-            clearInterval(countdownInterval);
-            startInput.value = '';
-            slutInput.value = '';
-
-
-            document.getElementById('resultat').innerText = "";
-            timerDisplay.textContent = '';
-            kvittoText.textContent = '';
-            timeoutInfo.textContent = '';
-
-
-
-            bookingBox.classList.remove("booked");
-            bookingBox.classList.add("available");
-            cancel.disabled = true;
+            bookingBox.classList.remove("booked");// det uppdaterar bokningsstatusen och ändra utseendet på bokningsboxen
+            bookingBox.classList.add("available");// för att ppdatera bokningsstatusen och ändra utseendet på bokningsboxen
+            cancel.disabled = true;// Inaktivera "Avsluta hyra"-knappen när bokningen avslutas
         }
 
-        cancel.addEventListener("click", function () {
+        cancel.addEventListener("click", function () {// Lägg till en event listener på "Avsluta hyra"-knappen som anropar en funktion när den klickas
 
 
 
-            if (!isBooked) {
-                alert("Du har ingen aktiv bokning");
-                return;
+            if (!isBooked) {// det kontrollerar om det inte finns en aktiv bokning, och om så är fallet, visa en alert och avbryt avslutningen
+                alert("Du har ingen aktiv bokning");// det visa en alert om det inte finns en aktiv bokning
+                return;// Avbryt avslutningen om det inte finns en aktiv bokning
             }
 
-            endBooking("Din bokning är avslutad");
-            /*
+            endBooking("Din bokning är avslutad");// det anropa funktionen endBooking med ett meddelande om att bokningen är avslutad
+
+            /* gamla koden innan jag gjorde endBooking funktionen
+
                         isBooked = false;
                         document.getElementById('starttid').value = "";
                         document.getElementById('sluttid').value = "";
@@ -303,14 +299,15 @@
             
             */
         });
-    </script>
-    
-    <footer>
-        <a href="VHDeS.html">Tillbaka till hemsidan</a>
-        <p>Vi hyr dig en elScooter.</p>
+    </script><!-- sluta javascript-->
+
+    <footer> <!-- texten som finns längs ner -->
+        <a href="VHDeS.html">Tillbaka till hemsidan</a><!-- Länk för att gå tillbaka till inloggningssidan -->
+        <br>
+        <p>Vi hyr dig en elScooter.</p> <!-- Texten som finns längst ner på sidan -->
     </footer>
 
-</body>
+</body> <!-- Stänger body -->
 
 
-</html>
+</html> <!-- Stänger html -->
